@@ -8,6 +8,59 @@ var bIC = 'http://www.builtincolorado.com/jobs#/jobs?f%5B%5D=im_job_categories%3
 var jobs = [];
 
 var sBiC = function(boo) {
+    if(!fs.existsSync('list.txt')){
+        console.log("running for the 1st time");
+        nightmare
+    .goto(boo)
+    .wait(3000)
+    .evaluate(function () {
+        var asd = [];
+        var list = document.querySelectorAll('.views-field-nothing');
+        list.forEach(function(e){
+            asd.push(e.innerText.split('\n'));
+        })
+        nextPage = document.querySelector('.pager-next > a').href;
+        return [asd, nextPage];
+        
+    })
+    .then(function (result) {
+        result[0].splice(0, 3);
+        jobs.push(result[0]);
+        nextPage = result[1];
+        nightmare
+            .goto(nextPage)
+            .wait(3000)
+            .evaluate(function () {
+                var asd = [];
+                var list = document.querySelectorAll('.views-field-nothing');
+                list.forEach(function(e){
+                    asd.push(e.innerText.split('\n'));
+                })
+                nextPage = document.querySelector('.pager-next > a').href;
+                return [asd, nextPage];
+                
+            })
+            .end()
+            .then(function (result) {
+                result[0].splice(0, 3);
+                jobs.push(result[0]);
+
+                require("fs").writeFile(
+                    'list.txt',
+                    jobs[0].map( item => item + '\n') + ' --- ' + '\n' +
+                    jobs[1].map( item => item + '\n'),
+                    function (err) { console.log(err ? 'Error :'+err : 'ok') }
+                );
+                console.log("done");
+
+            })
+        })
+    .catch(function (error) {
+        console.error('Search failed:', error);
+    });
+        
+        return "run againe pls"
+    }
     fs.createReadStream('list.txt').pipe(fs.createWriteStream('oldList.txt'));
     nightmare
     .goto(boo)
@@ -92,6 +145,9 @@ var newJJ = function(oldList, newList, numberOfNew){
         if(oldList === ',' + newList[numberOfNew]){
             return "no new postings";
         }
+    }
+    if(newList.length + 1 === numberOfNew){
+        return "non of the posting are the same... Maybe run it againe?"
     }
     if(newList[numberOfNew] === oldList){
         return numberOfNew;
