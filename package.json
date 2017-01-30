@@ -1,7 +1,7 @@
 {
-  "name": "scrp",
+  "name": "BuiltInScraper",
   "version": "1.0.0",
-  "description": "",
+  "description": "Check for new job postings on BuiltIn",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
