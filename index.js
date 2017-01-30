@@ -147,7 +147,7 @@ var newJJ = function(oldList, newList, numberOfNew){
         }
     }
     if(newList.length + 1 === numberOfNew){
-        return "non of the posting are the same... Maybe run it againe?"
+        return "non of the posting are the same... Maybe run it again?"
     }
     if(newList[numberOfNew] === oldList){
         return numberOfNew;
