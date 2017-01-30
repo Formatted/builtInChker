@@ -13,8 +13,6 @@ var sBiC = function(boo) {
     .goto(boo)
     .wait(3000)
     .evaluate(function () {
-        // return document.querySelector('.views-field-nothing > .field-content > .job-title > a').text;
-        // return document.getElementsByClassName('job-title').href;
         var asd = [];
         var list = document.querySelectorAll('.views-field-nothing');
         list.forEach(function(e){
@@ -25,19 +23,13 @@ var sBiC = function(boo) {
         
     })
     .then(function (result) {
-        // console.log(JSON.stringify(result));
-        // console.log(result[0]);
-        // console.log(result[1]);
         result[0].splice(0, 3);
         jobs.push(result[0]);
         nextPage = result[1];
-        // console.log(nextPage);
         nightmare
             .goto(nextPage)
             .wait(3000)
             .evaluate(function () {
-                // return document.querySelector('.views-field-nothing > .field-content > .job-title > a').text;
-                // return document.getElementsByClassName('job-title').href;
                 var asd = [];
                 var list = document.querySelectorAll('.views-field-nothing');
                 list.forEach(function(e){
@@ -51,7 +43,6 @@ var sBiC = function(boo) {
             .then(function (result) {
                 result[0].splice(0, 3);
                 jobs.push(result[0]);
-                // console.log(jobs);
 
                 require("fs").writeFile(
                     'list.txt',
@@ -86,20 +77,14 @@ var boogo = function(){
     var newL = [];
     var newJ = 0;
     require("fs").readFile('list.txt', 'utf8', function(err, gege){
-        // console.log(gege.split('\n')[0]);
         newL = gege.split('\n');
 
         require("fs").readFile('oldList.txt', 'utf8', function(err, gege){
-        // console.log(gege.split('\n')[0]);
         oldL = gege.split('\n');
         var oldLL = ',' + oldL[0];
         console.log('Numbe of new postings: ', newJJ(oldLL, newL, 0))
-          
-
+          });
     });
-
-    });
-
 }
 
 var newJJ = function(oldList, newList, numberOfNew){
